@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen Computación Aplicada · GNU/Linux</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --panel: #1e293b;
+    --panel-2: #273449;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent-2: #fbbf24;
+    --good: #22c55e;
+    --bad: #ef4444;
+    --code-bg: #0b1120;
+    --border: #334155;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header.hero {
+    padding: 60px 24px 40px;
+    text-align: center;
+    background: linear-gradient(135deg, #0b1224 0%, #1e3a8a 60%, #0ea5e9 120%);
+    border-bottom: 4px solid var(--accent);
+  }
+  header.hero h1 { margin: 0 0 8px; font-size: 2.4em; letter-spacing: 0.5px; }
+  header.hero p { margin: 0; color: #cbd5e1; font-size: 1.05em; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 30px 24px 80px; }
+  nav.toc {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 30px 0 40px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  }
+  nav.toc h2 { margin-top: 0; color: var(--accent); }
+  nav.toc ul { columns: 2; column-gap: 28px; padding-left: 18px; margin: 0; }
+  nav.toc li { margin-bottom: 8px; break-inside: avoid; }
+  nav.toc a { color: var(--text); text-decoration: none; }
+  nav.toc a:hover { color: var(--accent); text-decoration: underline; }
+  section.unit {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  section.unit h2 {
+    color: var(--accent);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
+    margin-top: 0;
+  }
+  section.unit h3 { color: var(--accent-2); margin-top: 26px; }
+  section.unit h4 { color: #e2e8f0; margin-bottom: 6px; }
+  code, pre {
+    font-family: "JetBrains Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    color: #d1f7ff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.92em;
+  }
+  pre {
+    padding: 14px 18px;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    line-height: 1.45;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    background: var(--panel-2);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.95em;
+  }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { background: #0b1120; color: var(--accent); }
+  ul, ol { padding-left: 24px; }
+  li { margin-bottom: 4px; }
+  .callout {
+    background: linear-gradient(90deg, rgba(251,191,36,0.12), rgba(251,191,36,0.04));
+    border-left: 4px solid var(--accent-2);
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin: 16px 0;
+  }
+  .callout.exam {
+    background: linear-gradient(90deg, rgba(239,68,68,0.15), rgba(239,68,68,0.04));
+    border-left-color: var(--bad);
+  }
+  .callout.exam strong { color: #fca5a5; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.78em;
+    background: #ef4444;
+    color: white;
+    font-weight: 600;
+    margin-left: 8px;
+    vertical-align: middle;
+    letter-spacing: 0.4px;
+  }
+  .quiz {
+    margin-top: 28px;
+    padding: 24px;
+    background: var(--panel-2);
+    border-radius: 10px;
+    border: 1px dashed var(--accent);
+  }
+  .quiz h3 { color: var(--accent); margin-top: 0; }
+  .question { margin-bottom: 18px; padding: 14px; background: #0f172a; border-radius: 8px; }
+  .question p.q { font-weight: 600; margin: 0 0 10px; color: #fde68a; }
+  .question label {
+    display: block;
+    padding: 8px 12px;
+    margin: 4px 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .question label:hover { background: #1f2c43; }
+  .question input[type=radio] { margin-right: 10px; }
+  .question .feedback {
+    display: none;
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.93em;
+  }
+  .question .feedback.ok { background: rgba(34,197,94,0.15); color: #86efac; border: 1px solid #22c55e; }
+  .question .feedback.bad { background: rgba(239,68,68,0.15); color: #fca5a5; border: 1px solid #ef4444; }
+  button.check {
+    background: var(--accent);
+    color: #0f172a;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 12px;
+    font-size: 1em;
+  }
+  button.check:hover { background: #0ea5e9; }
+  .score {
+    margin-top: 12px;
+    padding: 10px;
+    background: #0b1120;
+    border-radius: 6px;
+    font-weight: 600;
+    text-align: center;
+  }
+  details { margin: 10px 0; padding: 8px 12px; background: #0b1120; border-radius: 6px; border: 1px solid var(--border); }
+  summary { cursor: pointer; font-weight: 600; color: var(--accent); }
+  .key-term { color: var(--accent-2); font-weight: 600; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 30px 0; }
+  footer { text-align: center; color: var(--muted); padding: 20px; font-size: 0.9em; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>📚 Resumen — Computación Aplicada</h1>
+  <p>GNU/Linux · Universidad de Palermo · Material de estudio para el examen final</p>
+</header>
+
+<div class="container">
+
+  <div class="callout exam">
+    <strong>🎯 Foco del examen (mencionado por el profesor):</strong>
+    Comandos de entrada/salida y dispositivos asociados (stdin, stdout, stderr) · Descriptores estándar (0, 1, 2) · Gestión de paquetes (<code>apt-get update</code>, <code>apt-cache search</code>, <code>apt-get install</code>) · Historia GNU/Linux (Stallman vs. Torvalds) · Expresiones regulares · Uso de <code>grep</code> como filtro (ej. <code>grep '^C'</code>).
+    <br>Estos temas tienen el icono <span class="badge">EXAMEN</span> a lo largo del documento.
+  </div>
+
+  <nav class="toc">
+    <h2>Índice</h2>
+    <ul>
+      <li><a href="#u1">Unidad 1 — Historia GNU/Linux y Virtualización</a></li>
+      <li><a href="#u2">Unidad 2 — Shell, FHS, Comandos, Editores</a></li>
+      <li><a href="#u3">Unidad 3 — Streams, Pipes, Regex, Paquetes <span class="badge">EXAMEN</span></a></li>
+      <li><a href="#u4">Unidad 4 — Redes, DNS, DHCP, SSH</a></li>
+      <li><a href="#u5">Unidad 5 — Usuarios y SUDO</a></li>
+      <li><a href="#u6">Unidad 6 — Permisos (octal, simbólico, umask)</a></li>
+      <li><a href="#u7">Unidad 7 — Filesystem</a></li>
+      <li><a href="#examen">📝 Cuestionario integrador del examen</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============ UNIDAD 1 ============ -->
+  <section class="unit" id="u1">
+    <h2>Unidad 1 — GNU/Linux: Historia, Origen, Evolución y Virtualización</h2>
+
+    <h3>1.1 Historia y Software Libre <span class="badge">EXAMEN</span></h3>
+    <p><span class="key-term">Richard Stallman</span> (nacido en 1953, NY). Estudiante del MIT en los 70s, parte del laboratorio de IA. Vio cómo el software pasaba de cultura de compartir a software propietario (caso impresora Xerox).</p>
+    <ul>
+      <li>En <strong>1983</strong> anunció el <span class="key-term">Proyecto GNU</span> ("GNU's Not Unix") — un sistema operativo completamente libre.</li>
+      <li>Escribió la licencia <span class="key-term">GPL</span> (General Public License) que garantiza que el software siga siendo libre.</li>
+      <li>Creó herramientas fundamentales: <code>GCC</code> (compilador) y <code>Emacs</code> (editor).</li>
+      <li><strong>Stallman NO creó Linux</strong> — creó el proyecto GNU y promovió el software libre.</li>
+    </ul>
+
+    <h3>1.2 Origen de Unix → GNU → Linux</h3>
+    <ul>
+      <li><strong>Años 60:</strong> MIT + GE + Bell Labs desarrollan <strong>Multics</strong>.</li>
+      <li><strong>1969:</strong> Bell Labs abandona Multics. <strong>Ken Thompson</strong> crea <strong>Unix</strong> (1971).</li>
+      <li><strong>1973:</strong> Unix se reescribe en lenguaje C.</li>
+      <li><strong>1975:</strong> aparece <strong>BSD</strong> (UC Berkeley).</li>
+      <li><strong>1980:</strong> Unix se fragmenta (System V de AT&T, SunOS, AIX, HP-UX).</li>
+      <li><strong>1983:</strong> Proyecto GNU (Stallman).</li>
+      <li><strong>1991:</strong> <span class="key-term">Linus Torvalds</span>, estudiante finlandés, crea el <span class="key-term">kernel Linux</span> (basado en Minix de Tenenbaum). Publica el famoso mensaje en Usenet: <em>"Hola a todos los que están usando Minix..."</em>.</li>
+      <li><strong>2001:</strong> Apple lanza macOS basado en Unix (BSD).</li>
+    </ul>
+
+    <div class="callout exam">
+      <strong>⭐ Concepto clave del examen:</strong>
+      <ul style="margin: 6px 0;">
+        <li><code>GNU</code> = conjunto de herramientas libres (Stallman).</li>
+        <li><code>Linux</code> = el <strong>kernel</strong> (Torvalds).</li>
+        <li><code>GNU/Linux</code> = la combinación de ambos = el sistema operativo completo.</li>
+      </ul>
+      El <strong>kernel</strong> es el núcleo: controla el hardware, gestiona memoria y periféricos (teclado, monitor, impresora).
+    </div>
+
+    <h3>1.3 Virtualización</h3>
+    <p>Tecnología que permite ejecutar múltiples sistemas operativos en el mismo hardware físico. Crea "máquinas virtuales" que simulan un entorno de hardware (disco, red, CPU, video).</p>
+    <p>Las máquinas que alojan VMs se llaman <span class="key-term">hipervisores</span>. Concepto desde los años 60-70 con los mainframes IBM (S/360 Modelo 67). VMware desarrolló los primeros hipervisores modernos a fines de los 90 gracias a las extensiones <strong>IVT</strong> (Intel) y <strong>AMD-V</strong>.</p>
+    <table>
+      <tr><th>Tipo</th><th>Descripción</th><th>Ejemplos</th></tr>
+      <tr><td><strong>Tipo 1 (Bare Metal)</strong></td><td>Corre directamente sobre el hardware</td><td>Proxmox VE, Xen, KVM, Hyper-V, VMware ESXi</td></tr>
+      <tr><td><strong>Tipo 2 (Hosted)</strong></td><td>Corre sobre un SO estándar</td><td>VMware Workstation, Parallels, UTM, VirtualBox, QEMU</td></tr>
+    </table>
+
+    <h3>1.4 Características de *nix / GNU/Linux</h3>
+    <ul>
+      <li><strong>Multiusuario:</strong> múltiples usuarios trabajando simultáneamente.</li>
+      <li><strong>Multitarea:</strong> múltiples procesos en simultáneo.</li>
+      <li><strong>Tiempo compartido:</strong> reparto del CPU entre procesos.</li>
+      <li><strong>Case-sensitive:</strong> distingue mayúsculas y minúsculas.</li>
+    </ul>
+
+    <h3>1.5 Distribuciones: Rolling Release vs. Standard Release</h3>
+    <ul>
+      <li><strong>Rolling Release:</strong> actualizaciones continuas, software más reciente, mayor riesgo de inestabilidad. Ej: Arch Linux, OpenSUSE.</li>
+      <li><strong>Standard Release (Point Release):</strong> versiones estables periódicas. Ej: Debian, Ubuntu LTS, Fedora.</li>
+    </ul>
+
+    <div class="quiz" data-quiz="1">
+      <h3>📝 Cuestionario Unidad 1</h3>
+
+      <div class="question" data-correct="b">
+        <p class="q">1. ¿Quién creó el kernel Linux?</p>
+        <label><input type="radio" name="u1q1" value="a"> Richard Stallman</label>
+        <label><input type="radio" name="u1q1" value="b"> Linus Torvalds</label>
+        <label><input type="radio" name="u1q1" value="c"> Ken Thompson</label>
+        <label><input type="radio" name="u1q1" value="d"> Bill Joy</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">2. ¿Qué significa "GNU/Linux"?</p>
+        <label><input type="radio" name="u1q2" value="a"> Es solo el kernel creado por Stallman</label>
+        <label><input type="radio" name="u1q2" value="b"> Es la versión comercial de Unix</label>
+        <label><input type="radio" name="u1q2" value="c"> La unión de las herramientas GNU (Stallman) con el kernel Linux (Torvalds)</label>
+        <label><input type="radio" name="u1q2" value="d"> Una distribución basada en BSD</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <p class="q">3. ¿En qué año Stallman lanzó el Proyecto GNU?</p>
+        <label><input type="radio" name="u1q3" value="a"> 1971</label>
+        <label><input type="radio" name="u1q3" value="b"> 1983</label>
+        <label><input type="radio" name="u1q3" value="c"> 1991</label>
+        <label><input type="radio" name="u1q3" value="d"> 2001</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <p class="q">4. ¿Cuál es un hipervisor de Tipo 1 (Bare Metal)?</p>
+        <label><input type="radio" name="u1q4" value="a"> VMware ESXi</label>
+        <label><input type="radio" name="u1q4" value="b"> VirtualBox</label>
+        <label><input type="radio" name="u1q4" value="c"> Parallels Desktop</label>
+        <label><input type="radio" name="u1q4" value="d"> QEMU</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">5. ¿Qué distribución usa el modelo Rolling Release?</p>
+        <label><input type="radio" name="u1q5" value="a"> Debian</label>
+        <label><input type="radio" name="u1q5" value="b"> Ubuntu LTS</label>
+        <label><input type="radio" name="u1q5" value="c"> Arch Linux</label>
+        <label><input type="radio" name="u1q5" value="d"> Fedora</label>
+        <div class="feedback"></div>
+      </div>
+
+      <button class="check" onclick="checkQuiz(1)">Verificar respuestas</button>
+      <div class="score" id="score-1"></div>
+    </div>
+  </section>
+
+  <!-- ============ UNIDAD 2 ============ -->
+  <section class="unit" id="u2">
+    <h2>Unidad 2 — Shell, FHS, Comandos y Editores de Texto</h2>
+
+    <h3>2.1 Terminal y Shell</h3>
+    <p>La <strong>terminal</strong> (CLI) es la interfaz de línea de comandos. El <strong>shell</strong> es el programa que interpreta los comandos.</p>
+    <table>
+      <tr><th>Shell</th><th>Descripción</th></tr>
+      <tr><td><code>sh</code> (Bourne Shell)</td><td>Primer shell de Unix, Stephen Bourne, años 70</td></tr>
+      <tr><td><code>bash</code> (Bourne Again Shell)</td><td>El más común en GNU/Linux, evolución de sh</td></tr>
+      <tr><td><code>zsh</code> (Z Shell)</td><td>Potente y flexible, basado en sh</td></tr>
+      <tr><td><code>csh</code> (C Shell)</td><td>Bill Joy, sintaxis tipo C</td></tr>
+      <tr><td><code>ksh</code> (Korn Shell)</td><td>Combinación de sh y csh</td></tr>
+    </table>
+
+    <h3>2.2 Estándar FHS (Filesystem Hierarchy Standard)</h3>
+    <p>Estándar de 1993 que define cómo se organizan los directorios en sistemas tipo Unix.</p>
+    <table>
+      <tr><th>Directorio</th><th>Función</th></tr>
+      <tr><td><code>/</code></td><td>Raíz, todos los demás dependen de él</td></tr>
+      <tr><td><code>/boot</code></td><td>Archivos del gestor de arranque (GRUB)</td></tr>
+      <tr><td><code>/dev</code></td><td>Archivos de dispositivo (hardware como archivos)</td></tr>
+      <tr><td><code>/etc</code></td><td>Archivos de configuración del sistema</td></tr>
+      <tr><td><code>/home</code></td><td>Directorios personales de los usuarios</td></tr>
+      <tr><td><code>/bin</code> y <code>/sbin</code></td><td>Ejecutables binarios; <code>/sbin</code> solo administradores</td></tr>
+      <tr><td><code>/opt</code></td><td>Software instalado fuera de la distro</td></tr>
+      <tr><td><code>/usr/local</code></td><td>Software local del usuario</td></tr>
+      <tr><td><code>/mnt</code> y <code>/media</code></td><td>Puntos de montaje (media → temporal CD/USB; mnt → permanente)</td></tr>
+      <tr><td><code>/proc</code></td><td>Información de procesos (en memoria, dinámico)</td></tr>
+      <tr><td><code>/root</code></td><td>Home del superusuario</td></tr>
+      <tr><td><code>/var</code></td><td>Archivos que varían en tamaño (logs, etc.)</td></tr>
+      <tr><td><code>/tmp</code></td><td>Archivos temporales</td></tr>
+    </table>
+
+    <h4>Jerarquías de directorios</h4>
+    <ul>
+      <li><strong>Estáticos:</strong> no cambian sin root (/bin, /sbin, /opt, /boot, /usr).</li>
+      <li><strong>Dinámicos:</strong> cambian con frecuencia.</li>
+      <li><strong>Compartidos:</strong> pueden estar en otro servidor.</li>
+      <li><strong>Restringidos:</strong> solo modificables por administrador (/etc, /boot, /run).</li>
+    </ul>
+
+    <h3>2.3 Tipos de archivos</h3>
+    <p>En Linux, <strong>todo es un archivo</strong>. Los identificamos en la primera columna de <code>ls -l</code>:</p>
+    <table>
+      <tr><th>Símbolo</th><th>Tipo</th></tr>
+      <tr><td><code>-</code></td><td>Archivo regular</td></tr>
+      <tr><td><code>d</code></td><td>Directorio</td></tr>
+      <tr><td><code>c</code></td><td>Archivo de dispositivo de caracteres</td></tr>
+      <tr><td><code>b</code></td><td>Archivo de dispositivo de bloques</td></tr>
+      <tr><td><code>p</code></td><td>Pipe (canalización)</td></tr>
+      <tr><td><code>l</code></td><td>Link simbólico</td></tr>
+    </table>
+
+    <h3>2.4 Comandos básicos</h3>
+    <p>Sintaxis general: <code>$ comando [opciones] [argumentos]</code>. Linux es <strong>case-sensitive</strong>.</p>
+    <table>
+      <tr><th>Comando</th><th>Función</th></tr>
+      <tr><td><code>man</code></td><td>Manual del comando</td></tr>
+      <tr><td><code>pwd</code></td><td>Muestra el directorio actual</td></tr>
+      <tr><td><code>ls</code></td><td>Lista contenido (-l detallado, -a ocultos, -t por fecha, -h legible)</td></tr>
+      <tr><td><code>cd</code></td><td>Cambia directorio (<code>cd ..</code> sube)</td></tr>
+      <tr><td><code>touch</code></td><td>Crea archivo vacío</td></tr>
+      <tr><td><code>cp</code></td><td>Copia (-r recursivo, -v verbose)</td></tr>
+      <tr><td><code>mv</code></td><td>Mueve o renombra</td></tr>
+      <tr><td><code>rm</code></td><td>Elimina (-r recursivo, -f forzado)</td></tr>
+      <tr><td><code>rmdir</code></td><td>Elimina directorio vacío</td></tr>
+      <tr><td><code>mkdir</code></td><td>Crea directorio (-p crea padres)</td></tr>
+      <tr><td><code>cat</code></td><td>Muestra contenido del archivo</td></tr>
+      <tr><td><code>whatis</code></td><td>Descripción breve del comando</td></tr>
+      <tr><td><code>whereis</code></td><td>Ubicación del binario</td></tr>
+      <tr><td><code>shutdown -r now</code> / <code>-h now</code></td><td>Reinicia / apaga</td></tr>
+    </table>
+
+    <h3>2.5 Editores de texto</h3>
+    <ul>
+      <li><strong>Pico:</strong> minimalista, originalmente parte de Pine.</li>
+      <li><strong>Nano:</strong> clon de Pico, viene preinstalado.</li>
+      <li><strong>Emacs:</strong> creado por Stallman, muy potente y extensible.</li>
+      <li><strong>VI:</strong> Bill Joy, 1976, parte original de Unix, ligero.</li>
+      <li><strong>VIM:</strong> Bram Moolenaar, 1991, "editor para programadores".</li>
+    </ul>
+    <h4>Modos de VIM</h4>
+    <ul>
+      <li><strong>Modo comando:</strong> al abrir, las teclas ejecutan acciones.</li>
+      <li><strong>Modo inserción:</strong> con <code>i</code>, escribe texto.</li>
+      <li><strong>Modo EX (última línea):</strong> con <code>:</code>, comandos de búsqueda y acción.</li>
+    </ul>
+    <h4>Comandos clave de VI/VIM</h4>
+    <pre>i        → inserta texto
+Esc      → vuelve a modo comando
+x        → borra carácter
+dd       → corta/borra línea
+yy       → copia línea
+p / P    → pega debajo / encima
+u        → deshacer
+:w       → guardar
+:q       → salir sin guardar
+:wq      → guardar y salir
+:set nu  → numerar líneas
+/texto   → buscar</pre>
+
+    <div class="quiz" data-quiz="2">
+      <h3>📝 Cuestionario Unidad 2</h3>
+
+      <div class="question" data-correct="b">
+        <p class="q">1. ¿Qué directorio almacena los archivos de configuración del sistema?</p>
+        <label><input type="radio" name="u2q1" value="a"> /var</label>
+        <label><input type="radio" name="u2q1" value="b"> /etc</label>
+        <label><input type="radio" name="u2q1" value="c"> /opt</label>
+        <label><input type="radio" name="u2q1" value="d"> /home</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="d">
+        <p class="q">2. ¿Cuál es el shell predeterminado más común en GNU/Linux?</p>
+        <label><input type="radio" name="u2q2" value="a"> sh</label>
+        <label><input type="radio" name="u2q2" value="b"> csh</label>
+        <label><input type="radio" name="u2q2" value="c"> ksh</label>
+        <label><input type="radio" name="u2q2" value="d"> bash</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">3. En la salida de <code>ls -l</code>, una "d" al inicio indica:</p>
+        <label><input type="radio" name="u2q3" value="a"> Archivo regular</label>
+        <label><input type="radio" name="u2q3" value="b"> Link simbólico</label>
+        <label><input type="radio" name="u2q3" value="c"> Directorio</label>
+        <label><input type="radio" name="u2q3" value="d"> Pipe</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <p class="q">4. ¿Qué hace <code>mkdir -p a/b/c</code>?</p>
+        <label><input type="radio" name="u2q4" value="a"> Crea solo el directorio "c"</label>
+        <label><input type="radio" name="u2q4" value="b"> Crea los tres directorios anidados</label>
+        <label><input type="radio" name="u2q4" value="c"> Lista los directorios padre</label>
+        <label><input type="radio" name="u2q4" value="d"> Crea un archivo a/b/c</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <p class="q">5. En VIM, ¿cómo se pasa al modo inserción de texto?</p>
+        <label><input type="radio" name="u2q5" value="a"> Presionando "i"</label>
+        <label><input type="radio" name="u2q5" value="b"> Presionando ":w"</label>
+        <label><input type="radio" name="u2q5" value="c"> Presionando "Esc"</label>
+        <label><input type="radio" name="u2q5" value="d"> Presionando "dd"</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">6. ¿Qué es el FHS?</p>
+        <label><input type="radio" name="u2q6" value="a"> Un editor de texto</label>
+        <label><input type="radio" name="u2q6" value="b"> Un shell</label>
+        <label><input type="radio" name="u2q6" value="c"> El estándar que define la jerarquía de directorios en sistemas Unix</label>
+        <label><input type="radio" name="u2q6" value="d"> Un gestor de paquetes</label>
+        <div class="feedback"></div>
+      </div>
+
+      <button class="check" onclick="checkQuiz(2)">Verificar respuestas</button>
+      <div class="score" id="score-2"></div>
+    </div>
+  </section>
+
+  <!-- ============ UNIDAD 3 ============ -->
+  <section class="unit" id="u3">
+    <h2>Unidad 3 — Streams, Filtros, Pipes, Regex y Gestor de Paquetes <span class="badge">EXAMEN</span></h2>
+
+    <h3>3.1 Standard Streams <span class="badge">EXAMEN</span></h3>
+    <div class="callout exam">
+      <strong>⭐ Tema central del examen.</strong> Linux tiene 3 streams (flujos) predefinidos:
+      <table style="margin-top: 10px;">
+        <tr><th>Descriptor</th><th>Nombre</th><th>Default</th><th>Función</th></tr>
+        <tr><td><strong>0</strong></td><td><code>stdin</code> (Standard Input)</td><td>Teclado</td><td>Entrada de datos</td></tr>
+        <tr><td><strong>1</strong></td><td><code>stdout</code> (Standard Output)</td><td>Monitor</td><td>Salida normal</td></tr>
+        <tr><td><strong>2</strong></td><td><code>stderr</code> (Standard Error)</td><td>Monitor</td><td>Salida de errores (separada de stdout)</td></tr>
+      </table>
+    </div>
+    <p>El objetivo de los 3 streams es <strong>separar entrada, salida normal y errores</strong>. Esto permite:</p>
+    <ul>
+      <li>Redirigir salida a un archivo sin capturar errores.</li>
+      <li>Capturar y gestionar errores por separado.</li>
+      <li>Automatizar procesos en scripts sin intervención manual.</li>
+    </ul>
+
+    <h3>3.2 Redireccionamiento</h3>
+    <table>
+      <tr><th>Símbolo</th><th>Función</th><th>Ejemplo</th></tr>
+      <tr><td><code>&gt;</code></td><td>Redirige stdout a archivo (sobreescribe)</td><td><code>ls -l /etc &gt; archivo_ls</code></td></tr>
+      <tr><td><code>&gt;&gt;</code></td><td>Añade stdout al final del archivo</td><td><code>ls -l /var &gt;&gt; archivo_ls</code></td></tr>
+      <tr><td><code>&lt;</code></td><td>Lee stdin desde archivo</td><td><code>cat &lt; archivo_ls</code></td></tr>
+      <tr><td><code>2&gt;</code></td><td>Redirige stderr a archivo</td><td><code>ls /noexiste 2&gt; error.log</code></td></tr>
+      <tr><td><code>2&gt;/dev/null</code></td><td>Descarta errores (agujero negro)</td><td><code>ls /noexiste 2&gt; /dev/null</code></td></tr>
+      <tr><td><code>&amp;&gt;</code></td><td>stdout y stderr al mismo archivo (bash 4+)</td><td><code>ls &amp;&gt; salida.txt</code></td></tr>
+      <tr><td><code>2&gt;&amp;1</code></td><td>stderr al mismo destino que stdout (compatible)</td><td><code>ls &gt; out 2&gt;&amp;1</code></td></tr>
+    </table>
+
+    <h3>3.3 Pipes <code>|</code></h3>
+    <p>El pipe <code>|</code> envía la salida (stdout) de un comando como entrada (stdin) del siguiente.</p>
+    <pre>cat /var/log/dpkg.log | grep "installed"
+cat archivo_ls | head -n 2</pre>
+
+    <h3>3.4 Filtros</h3>
+    <table>
+      <tr><th>Comando</th><th>Función</th></tr>
+      <tr><td><code>tail</code></td><td>Últimas líneas (-f sigue, -n N líneas)</td></tr>
+      <tr><td><code>head</code></td><td>Primeras líneas</td></tr>
+      <tr><td><code>more</code></td><td>Paginar archivo (solo adelante)</td></tr>
+      <tr><td><code>less</code></td><td>Paginar archivo (adelante y atrás)</td></tr>
+      <tr><td><code>sort</code></td><td>Ordena (-r reverso, -n numérico)</td></tr>
+      <tr><td><code>wc</code></td><td>Cuenta (-l líneas, -w palabras, -m caracteres)</td></tr>
+      <tr><td><code>cut</code></td><td>Extrae partes de cada línea</td></tr>
+    </table>
+
+    <h3>3.5 grep — el filtro estrella <span class="badge">EXAMEN</span></h3>
+    <p>Busca dentro de archivos o stdin patrones de texto o expresiones regulares.</p>
+    <pre>grep [opciones] [patrón] [archivo]
+  -i  : ignora mayúsculas/minúsculas
+  -n  : muestra número de línea
+  -r  : recursivo en directorios
+  -c  : cuenta coincidencias
+  -E  : usa expresiones regulares extendidas (egrep)
+  -v  : invierte (líneas que NO coinciden)</pre>
+    <div class="callout exam">
+      <strong>⭐ Ejemplo del examen — buscar líneas que empiecen con "C":</strong>
+      <pre style="margin-top:8px;">grep '^C' archivo.txt</pre>
+      El símbolo <code>^</code> indica <strong>inicio de línea</strong>.
+    </div>
+
+    <h3>3.6 Búsqueda: find vs locate</h3>
+    <ul>
+      <li><strong>find</strong>: búsqueda exhaustiva en tiempo real. Lento pero versátil. Permite criterios: <code>-name</code>, <code>-iname</code>, <code>-type f/d</code>, <code>-size</code>, <code>-mtime</code>, <code>-perm</code>, <code>-exec</code>, <code>-delete</code>.</li>
+      <li><strong>locate</strong>: ultrarrápido, usa base de datos indexada (<code>updatedb</code>). Parte de <code>mlocate</code>.</li>
+    </ul>
+
+    <h3>3.7 Expresiones Regulares (Regex) <span class="badge">EXAMEN</span></h3>
+    <p>Conjunto de reglas para definir patrones de búsqueda en texto. Se usan en <code>grep</code>, <code>find</code>, etc.</p>
+
+    <h4>Alternación (OR)</h4>
+    <pre>/a|b/      → coincide con "a" o "b"
+cat Gerencias | grep -E "Tecnologia|Deposito"</pre>
+
+    <h4>Cuantificación</h4>
+    <table>
+      <tr><th>Símbolo</th><th>Significado</th></tr>
+      <tr><td><code>*</code></td><td>cero o más veces</td></tr>
+      <tr><td><code>+</code></td><td>una o más veces</td></tr>
+      <tr><td><code>?</code></td><td>cero o una vez</td></tr>
+      <tr><td><code>{n}</code></td><td>exactamente n veces</td></tr>
+      <tr><td><code>{n,m}</code></td><td>entre n y m veces</td></tr>
+    </table>
+
+    <h4>Agrupación</h4>
+    <ul>
+      <li><code>()</code> — agrupa subexpresiones: <code>(abc)+</code></li>
+      <li><code>[]</code> — grupo de caracteres: <code>[aeiou]</code>, <code>[a-z0-9]</code></li>
+      <li><code>[^...]</code> — negación dentro del grupo: <code>[^aeiou]</code></li>
+    </ul>
+
+    <h4>Caracteres especiales</h4>
+    <table>
+      <tr><th>Carácter</th><th>Significado</th></tr>
+      <tr><td><code>.</code></td><td>cualquier carácter (excepto nueva línea)</td></tr>
+      <tr><td><code>^</code></td><td>inicio de línea</td></tr>
+      <tr><td><code>$</code></td><td>fin de línea</td></tr>
+    </table>
+    <pre>cat Gerencias | grep -E 's$'    # palabras que terminan en s
+grep '^C' archivo.txt           # líneas que empiezan con C</pre>
+
+    <h3>3.8 Gestor de Paquetes <span class="badge">EXAMEN</span></h3>
+    <p>Herramienta que automatiza instalación, actualización y eliminación de software. Cada distro tiene el suyo:</p>
+    <table>
+      <tr><th>Distribución</th><th>Gestor</th><th>Archivo de configuración</th></tr>
+      <tr><td>Debian / Ubuntu</td><td><strong>APT</strong></td><td><code>/etc/apt/sources.list</code></td></tr>
+      <tr><td>RedHat</td><td>YUM</td><td><code>/etc/yum.conf</code></td></tr>
+      <tr><td>Arch Linux</td><td>PACMAN</td><td><code>/etc/pacman.conf</code></td></tr>
+    </table>
+
+    <h4>APT vs dpkg</h4>
+    <table>
+      <tr><th>Característica</th><th>APT</th><th>dpkg</th></tr>
+      <tr><td>Nivel</td><td>Alto</td><td>Bajo</td></tr>
+      <tr><td>Dependencias</td><td>Resuelve automáticamente</td><td>NO las resuelve</td></tr>
+      <tr><td>Uso típico</td><td>Instalar desde repositorios</td><td>Instalar .deb locales</td></tr>
+    </table>
+
+    <h4>Comandos APT clave <span class="badge">EXAMEN</span></h4>
+    <div class="callout exam">
+      <table>
+        <tr><th>Comando</th><th>Función</th></tr>
+        <tr><td><code>apt-get update</code></td><td><strong>Actualiza el índice/repositorio local</strong> (compara con repositorios remotos)</td></tr>
+        <tr><td><code>apt-cache search [paquete]</code></td><td><strong>Busca el nombre de un paquete</strong> en el índice local</td></tr>
+        <tr><td><code>apt-get install [paquete]</code></td><td><strong>Instala el paquete</strong> y sus dependencias</td></tr>
+        <tr><td><code>apt-get upgrade</code></td><td>Actualiza paquetes instalados</td></tr>
+        <tr><td><code>apt-get remove [paquete]</code></td><td>Elimina paquete (conserva configuración)</td></tr>
+        <tr><td><code>apt-get purge [paquete]</code></td><td>Elimina paquete y sus configuraciones</td></tr>
+        <tr><td><code>apt show [paquete]</code></td><td>Muestra info del paquete</td></tr>
+        <tr><td><code>apt full-upgrade</code></td><td>Actualiza el SO entero (versión mayor)</td></tr>
+      </table>
+    </div>
+
+    <h4>Formato del sources.list</h4>
+    <pre>deb [opciones] uri distro [componente1] [componente2] ...
+deb http://deb.debian.org/debian bookworm main contrib non-free</pre>
+    <ul>
+      <li><strong>deb</strong>: paquetes binarios. <strong>deb-src</strong>: código fuente.</li>
+      <li><strong>uri</strong>: URL del repositorio.</li>
+      <li><strong>distro</strong>: bullseye, bookworm, etc.</li>
+      <li><strong>main</strong>: software libre (DFSG). <strong>contrib</strong>: libre con dependencias no libres. <strong>non-free</strong>: software no libre.</li>
+    </ul>
+
+    <h4>Proceso de upgrade del SO (ejemplo Bullseye → Bookworm)</h4>
+    <pre>apt update
+apt upgrade
+apt autoremove
+# Editar sources.list cambiando bullseye → bookworm
+apt update
+apt full-upgrade
+reboot
+lsb_release -a    # confirmar versión</pre>
+
+    <div class="quiz" data-quiz="3">
+      <h3>📝 Cuestionario Unidad 3 (foco examen)</h3>
+
+      <div class="question" data-correct="b">
+        <p class="q">1. ¿Cuál es el descriptor estándar del stderr?</p>
+        <label><input type="radio" name="u3q1" value="a"> 0</label>
+        <label><input type="radio" name="u3q1" value="b"> 2</label>
+        <label><input type="radio" name="u3q1" value="c"> 1</label>
+        <label><input type="radio" name="u3q1" value="d"> 3</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">2. ¿Cuál es el dispositivo asociado por default al stdin?</p>
+        <label><input type="radio" name="u3q2" value="a"> Monitor</label>
+        <label><input type="radio" name="u3q2" value="b"> Disco</label>
+        <label><input type="radio" name="u3q2" value="c"> Teclado</label>
+        <label><input type="radio" name="u3q2" value="d"> Impresora</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="d">
+        <p class="q">3. ¿Qué hace <code>apt-get update</code>?</p>
+        <label><input type="radio" name="u3q3" value="a"> Instala paquetes</label>
+        <label><input type="radio" name="u3q3" value="b"> Actualiza el sistema operativo entero</label>
+        <label><input type="radio" name="u3q3" value="c"> Busca un paquete por nombre</label>
+        <label><input type="radio" name="u3q3" value="d"> Actualiza el índice local de paquetes (lista de repositorios)</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <p class="q">4. ¿Qué hace <code>apt-cache search firefox</code>?</p>
+        <label><input type="radio" name="u3q4" value="a"> Busca el paquete "firefox" en el índice local</label>
+        <label><input type="radio" name="u3q4" value="b"> Instala firefox</label>
+        <label><input type="radio" name="u3q4" value="c"> Elimina firefox</label>
+        <label><input type="radio" name="u3q4" value="d"> Actualiza firefox</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <p class="q">5. ¿Qué hace el comando <code>grep '^C' archivo.txt</code>?</p>
+        <label><input type="radio" name="u3q5" value="a"> Busca líneas que terminen con C</label>
+        <label><input type="radio" name="u3q5" value="b"> Busca líneas que empiecen con C</label>
+        <label><input type="radio" name="u3q5" value="c"> Cuenta cuántas C tiene el archivo</label>
+        <label><input type="radio" name="u3q5" value="d"> Reemplaza C por otro carácter</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">6. ¿Qué son las expresiones regulares?</p>
+        <label><input type="radio" name="u3q6" value="a"> Comandos para apagar el sistema</label>
+        <label><input type="radio" name="u3q6" value="b"> Archivos de configuración</label>
+        <label><input type="radio" name="u3q6" value="c"> Reglas que definen patrones de búsqueda complejos en cadenas de texto</label>
+        <label><input type="radio" name="u3q6" value="d"> Números binarios</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="d">
+        <p class="q">7. ¿Qué redirección envía los errores a un archivo descartándolos?</p>
+        <label><input type="radio" name="u3q7" value="a"> &gt; archivo</label>
+        <label><input type="radio" name="u3q7" value="b"> &lt; archivo</label>
+        <label><input type="radio" name="u3q7" value="c"> | archivo</label>
+        <label><input type="radio" name="u3q7" value="d"> 2&gt; /dev/null</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <p class="q">8. ¿Cuál es la diferencia clave entre APT y dpkg?</p>
+        <label><input type="radio" name="u3q8" value="a"> APT resuelve dependencias automáticamente, dpkg no</label>
+        <label><input type="radio" name="u3q8" value="b"> dpkg es más nuevo que APT</label>
+        <label><input type="radio" name="u3q8" value="c"> APT no puede instalar paquetes</label>
+        <label><input type="radio" name="u3q8" value="d"> No hay diferencia</div>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <p class="q">9. ¿Qué hace el pipe <code>|</code>?</p>
+        <label><input type="radio" name="u3q9" value="a"> Redirige stdout a un archivo</label>
+        <label><input type="radio" name="u3q9" value="b"> Envía stdout de un comando como stdin del siguiente</label>
+        <label><input type="radio" name="u3q9" value="c"> Borra archivos</label>
+        <label><input type="radio" name="u3q9" value="d"> Lista directorios</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">10. En regex, ¿qué significa el cuantificador <code>+</code>?</p>
+        <label><input type="radio" name="u3q10" value="a"> Cero o más veces</label>
+        <label><input type="radio" name="u3q10" value="b"> Cero o una vez</label>
+        <label><input type="radio" name="u3q10" value="c"> Una o más veces</label>
+        <label><input type="radio" name="u3q10" value="d"> Exactamente una vez</label>
+        <div class="feedback"></div>
+      </div>
+
+      <button class="check" onclick="checkQuiz(3)">Verificar respuestas</button>
+      <div class="score" id="score-3"></div>
+    </div>
+  </section>
+
+  <!-- ============ UNIDAD 4 ============ -->
+  <section class="unit" id="u4">
+    <h2>Unidad 4 — Redes, DNS, DHCP y SSH</h2>
+
+    <h3>4.1 Conceptos de Redes</h3>
+    <p>Una <strong>red</strong> es un conjunto de dispositivos conectados para compartir recursos. Modelo cliente-servidor: el cliente genera peticiones, el servidor escucha y responde.</p>
+    <table>
+      <tr><th>Tipo</th><th>Alcance</th></tr>
+      <tr><td><strong>LAN</strong> (Local Area Network)</td><td>Hogares, oficinas, edificios</td></tr>
+      <tr><td><strong>WAN</strong> (Wide Area Network)</td><td>Ciudades, países (ej: Internet)</td></tr>
+      <tr><td><strong>PAN</strong> (Personal Area Network)</td><td>Bluetooth, dispositivos personales</td></tr>
+      <tr><td><strong>MAN</strong> (Metropolitan Area Network)</td><td>Áreas metropolitanas</td></tr>
+    </table>
+
+    <h3>4.2 Direcciones IP</h3>
+    <ul>
+      <li><strong>IPv4:</strong> 32 bits, notación decimal (4 octetos de 0-255). Ej: <code>192.168.1.1</code></li>
+      <li><strong>IPv6:</strong> 128 bits, notación hexadecimal. Ej: <code>2001:0db8:85a3::8a2e:0370:7334</code></li>
+    </ul>
+
+    <h4>Clases de IPv4</h4>
+    <table>
+      <tr><th>Clase</th><th>Rango</th><th>Formato</th><th>Uso</th></tr>
+      <tr><td>A</td><td>0.0.0.0 – 127.255.255.255</td><td>red.host.host.host</td><td>Redes grandes</td></tr>
+      <tr><td>B</td><td>128.0.0.0 – 191.255.255.255</td><td>red.red.host.host</td><td>Redes medianas</td></tr>
+      <tr><td>C</td><td>192.0.0.0 – 223.255.255.255</td><td>red.red.red.host</td><td>Redes pequeñas</td></tr>
+      <tr><td>D</td><td>—</td><td>Multicast</td><td>—</td></tr>
+      <tr><td>E</td><td>—</td><td>Reservada</td><td>Investigación</td></tr>
+    </table>
+
+    <h4>Máscara de Red y CIDR</h4>
+    <p>La máscara define qué parte es red y qué parte es host. Ejemplo: <code>255.255.255.0</code> = <code>/24</code> (los primeros 24 bits son de red).</p>
+    <p>Notación CIDR: <code>192.168.1.1/24</code></p>
+
+    <h4>Configuración de red en Debian</h4>
+    <p>Archivo: <code>/etc/network/interfaces</code></p>
+    <pre>auto eth0
+allow-hotplug eth0
+iface eth0 inet static
+    address 192.168.0.10
+    netmask 255.255.255.0
+    gateway 192.168.0.1
+
+# o para DHCP:
+iface eth0 inet dhcp</pre>
+
+    <h3>4.3 DNS — Domain Name System</h3>
+    <p>Traduce nombres de dominio (<code>www.google.com</code>) en direcciones IP (<code>192.168.1.1</code>).</p>
+    <h4>Jerarquía de dominios</h4>
+    <p>Ejemplo: <code>mail.ejemplo.com</code></p>
+    <ul>
+      <li><strong>.com</strong> = TLD (Top Level Domain)</li>
+      <li><strong>ejemplo</strong> = dominio secundario</li>
+      <li><strong>mail</strong> = subdominio</li>
+    </ul>
+
+    <h4>Tipos de servidores DNS</h4>
+    <ol>
+      <li><strong>DNS Recursivo:</strong> recibe la consulta y pregunta a otros servidores.</li>
+      <li><strong>Root DNS Server:</strong> servidor raíz, deriva al TLD.</li>
+      <li><strong>TLD Server:</strong> gestiona dominios .com, .net, .ar, etc.</li>
+      <li><strong>DNS Autoritativo:</strong> entidad final que da la IP definitiva.</li>
+    </ol>
+
+    <h4>Tipos de registros DNS</h4>
+    <table>
+      <tr><th>Tipo</th><th>Función</th></tr>
+      <tr><td><strong>A</strong></td><td>Asocia nombre a IPv4</td></tr>
+      <tr><td><strong>AAAA</strong></td><td>Asocia nombre a IPv6</td></tr>
+      <tr><td><strong>CNAME</strong></td><td>Alias (canonical name) — dominio a dominio</td></tr>
+      <tr><td><strong>MX</strong></td><td>Servidores de correo</td></tr>
+      <tr><td><strong>NS</strong></td><td>Servidores de nombre autorizados</td></tr>
+      <tr><td><strong>TXT</strong></td><td>Texto para verificaciones / políticas</td></tr>
+    </table>
+
+    <h3>4.4 DHCP — Dynamic Host Configuration Protocol</h3>
+    <p>Asigna automáticamente direcciones IP, máscara, gateway y DNS a los dispositivos.</p>
+    <h4>4 fases del DHCP</h4>
+    <ol>
+      <li><strong>DHCP Discover:</strong> el cliente solicita una IP (broadcast).</li>
+      <li><strong>DHCP Offer:</strong> el servidor ofrece una IP libre.</li>
+      <li><strong>DHCP Request:</strong> el cliente acepta la oferta (broadcast).</li>
+      <li><strong>DHCP ACK:</strong> el servidor confirma la asignación.</li>
+    </ol>
+    <p>Regla mnemotécnica: <strong>D-O-R-A</strong> (Discover, Offer, Request, Acknowledge).</p>
+
+    <h3>4.5 SSH — Secure Shell</h3>
+    <p>Protocolo y programa para acceder a servidores de forma remota y segura.</p>
+    <ul>
+      <li><strong>Cliente SSH:</strong> origina la conexión.</li>
+      <li><strong>Servidor SSH:</strong> recibe la conexión (paquete <code>openssh-server</code>).</li>
+      <li><strong>Puerto default:</strong> 22 (TCP).</li>
+    </ul>
+
+    <h4>Archivos de configuración (<code>/etc/ssh</code>)</h4>
+    <ul>
+      <li><strong>sshd_config:</strong> configuración del servidor SSH (port, PermitRootLogin, PasswordAuthentication, PubkeyAuthentication, AuthorizedKeysFile).</li>
+      <li><strong>ssh_config:</strong> configuración del cliente.</li>
+    </ul>
+
+    <h4>Métodos de autenticación</h4>
+    <ul>
+      <li><strong>Por contraseña:</strong> básico, vulnerable a fuerza bruta.</li>
+      <li><strong>Por clave pública/privada:</strong> recomendado.
+        <ul>
+          <li><code>ssh-keygen</code> → genera el par <code>id_rsa</code> (privada) e <code>id_rsa.pub</code> (pública).</li>
+          <li><code>ssh-copy-id usuario@host</code> → copia la pública al servidor.</li>
+          <li>La clave pública se guarda en <code>~/.ssh/authorized_keys</code> del servidor.</li>
+          <li>La clave privada NUNCA se comparte.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4>Uso del comando ssh</h4>
+    <pre>ssh host                  # con el mismo usuario actual
+ssh usuario@host          # especificando usuario
+exit                      # cerrar sesión SSH</pre>
+
+    <div class="quiz" data-quiz="4">
+      <h3>📝 Cuestionario Unidad 4</h3>
+
+      <div class="question" data-correct="b">
+        <p class="q">1. ¿Qué hace un servidor DNS?</p>
+        <label><input type="radio" name="u4q1" value="a"> Asigna direcciones IP automáticamente</label>
+        <label><input type="radio" name="u4q1" value="b"> Traduce nombres de dominio en direcciones IP</label>
+        <label><input type="radio" name="u4q1" value="c"> Encripta el tráfico de red</label>
+        <label><input type="radio" name="u4q1" value="d"> Bloquea sitios web</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="d">
+        <p class="q">2. ¿Cuál es el orden correcto de las fases de DHCP?</p>
+        <label><input type="radio" name="u4q2" value="a"> Request, Offer, Discover, Ack</label>
+        <label><input type="radio" name="u4q2" value="b"> Offer, Discover, Ack, Request</label>
+        <label><input type="radio" name="u4q2" value="c"> Ack, Request, Discover, Offer</label>
+        <label><input type="radio" name="u4q2" value="d"> Discover, Offer, Request, Ack</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <p class="q">3. ¿En qué puerto trabaja SSH por default?</p>
+        <label><input type="radio" name="u4q3" value="a"> 22</label>
+        <label><input type="radio" name="u4q3" value="b"> 80</label>
+        <label><input type="radio" name="u4q3" value="c"> 443</label>
+        <label><input type="radio" name="u4q3" value="d"> 21</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">4. ¿Qué tipo de registro DNS asocia un dominio a una IPv4?</p>
+        <label><input type="radio" name="u4q4" value="a"> MX</label>
+        <label><input type="radio" name="u4q4" value="b"> CNAME</label>
+        <label><input type="radio" name="u4q4" value="c"> A</label>
+        <label><input type="radio" name="u4q4" value="d"> TXT</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <p class="q">5. ¿Qué clave SSH NO se debe compartir nunca?</p>
+        <label><input type="radio" name="u4q5" value="a"> id_rsa.pub</label>
+        <label><input type="radio" name="u4q5" value="b"> id_rsa (privada)</label>
+        <label><input type="radio" name="u4q5" value="c"> authorized_keys</label>
+        <label><input type="radio" name="u4q5" value="d"> known_hosts</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="d">
+        <p class="q">6. La IP <code>192.168.1.1/24</code> en notación CIDR significa que:</p>
+        <label><input type="radio" name="u4q6" value="a"> Es una IPv6</label>
+        <label><input type="radio" name="u4q6" value="b"> La máscara es 255.255.0.0</label>
+        <label><input type="radio" name="u4q6" value="c"> Hay 24 hosts disponibles</label>
+        <label><input type="radio" name="u4q6" value="d"> Los primeros 24 bits son de red, los 8 restantes para hosts</label>
+        <div class="feedback"></div>
+      </div>
+
+      <button class="check" onclick="checkQuiz(4)">Verificar respuestas</button>
+      <div class="score" id="score-4"></div>
+    </div>
+  </section>
+
+  <!-- ============ UNIDAD 5 ============ -->
+  <section class="unit" id="u5">
+    <h2>Unidad 5 — Administración de Usuarios y SUDO</h2>
+
+    <h3>5.1 Tipos de usuarios</h3>
+    <p>GNU/Linux es <strong>multiusuario</strong>. Cada usuario tiene un <strong>UID</strong> único y un grupo principal con su <strong>GID</strong>.</p>
+    <table>
+      <tr><th>Tipo</th><th>UID</th><th>Descripción</th></tr>
+      <tr><td><strong>root</strong></td><td>0</td><td>Superusuario, acceso ilimitado. NO usar para tareas diarias</td></tr>
+      <tr><td><strong>Especiales / no-login</strong></td><td>1–100</td><td>Usuarios de servicios (www-data, sshd, daemon)</td></tr>
+      <tr><td><strong>Normales</strong></td><td>≥1000</td><td>Usuarios humanos, home en /home/[usuario]</td></tr>
+    </table>
+
+    <h3>5.2 Archivos clave en /etc</h3>
+
+    <h4><code>/etc/passwd</code></h4>
+    <p>Información de usuarios. 7 campos separados por <code>:</code></p>
+    <pre>root:x:0:0:root:/root:/bin/bash
+alumno:x:1000:1000:Usuario Alumno:/home/alumno:/bin/bash</pre>
+    <ol>
+      <li>Login</li>
+      <li><code>x</code> (la contraseña real está en /etc/shadow)</li>
+      <li>UID</li>
+      <li>GID</li>
+      <li>Descripción</li>
+      <li>Home</li>
+      <li>Shell</li>
+    </ol>
+
+    <h4><code>/etc/shadow</code></h4>
+    <p>Contraseñas encriptadas y políticas de expiración. 9 campos.</p>
+    <p>Si el segundo campo es <code>*</code>, la cuenta es no-login.</p>
+
+    <h4><code>/etc/group</code></h4>
+    <p>Grupos del sistema. Formato: <code>nombre:x:GID:usuarios_separados_por_coma</code></p>
+    <pre>Tecnologia:x:1002:alumno,jperez</pre>
+
+    <h3>5.3 Comandos de gestión de usuarios</h3>
+    <table>
+      <tr><th>Comando</th><th>Función</th></tr>
+      <tr><td><code>useradd</code> / <code>adduser</code></td><td>Crear usuario (-m crea home, -s shell, -c comentario, -G grupos, -u UID)</td></tr>
+      <tr><td><code>usermod</code></td><td>Modificar usuario (-aG agrega a grupo, -L bloquea, -U desbloquea)</td></tr>
+      <tr><td><code>userdel</code></td><td>Eliminar usuario (-r borra también el home)</td></tr>
+      <tr><td><code>passwd</code></td><td>Cambiar contraseña</td></tr>
+      <tr><td><code>groupadd</code> / <code>groupdel</code> / <code>groupmod</code></td><td>Gestionar grupos</td></tr>
+      <tr><td><code>groups</code></td><td>Mostrar grupos a los que pertenece el usuario</td></tr>
+    </table>
+
+    <pre>useradd -m -s /bin/bash -c "Juan Perez" jperez
+usermod -aG Tecnologia jperez</pre>
+
+    <h3>5.4 Recuperación de contraseña de root desde GRUB</h3>
+    <ol>
+      <li>Reiniciar la máquina.</li>
+      <li>En el menú GRUB, presionar <code>E</code> antes que termine el contador.</li>
+      <li>Localizar la línea <code>linux /boot/vmlinuz-… ro quiet</code>.</li>
+      <li>Reemplazar <code>ro quiet</code> por <code>rw init=/bin/bash</code>.</li>
+      <li>Presionar <code>F10</code>.</li>
+      <li>Ejecutar <code>passwd</code> para cambiar la contraseña de root.</li>
+      <li>Reiniciar con <code>exec /sbin/init</code>.</li>
+    </ol>
+
+    <h3>5.5 SUDO (SuperUser DO)</h3>
+    <p>Permite ejecutar comandos con privilegios de root sin iniciar sesión como root. Características:</p>
+    <ul>
+      <li><strong>Control de acceso granular</strong></li>
+      <li><strong>Registro de actividad</strong> (auditoría)</li>
+      <li><strong>Temporalidad</strong> (timestamp_timeout default 5 min)</li>
+      <li><strong>Minimiza riesgos</strong> (evita uso directo de root)</li>
+    </ul>
+
+    <h4>Archivo <code>/etc/sudoers</code></h4>
+    <p>Editar SIEMPRE con <code>visudo</code> (verifica sintaxis).</p>
+    <p>Estructura de una regla:</p>
+    <pre>alumno    ALL = (ALL:ALL) ALL
+#         |     |    |    |
+#       host  user grupo  comandos</pre>
+    <ul>
+      <li><strong>1° ALL:</strong> en qué máquinas se aplica la regla</li>
+      <li><strong>(ALL:ALL):</strong> como qué usuario y grupo puede ejecutar</li>
+      <li><strong>último ALL:</strong> qué comandos puede ejecutar</li>
+    </ul>
+
+    <h4>Defaults importantes</h4>
+    <ul>
+      <li><code>env_reset</code>: resetea variables de entorno</li>
+      <li><code>mail_badpass</code>: notifica contraseñas incorrectas</li>
+      <li><code>secure_path</code>: PATH seguro</li>
+      <li><code>timestamp_timeout</code>: tiempo de cache de contraseña</li>
+    </ul>
+
+    <h4>Alias</h4>
+    <pre>Host_Alias  SERVIDORES = server1, server2
+User_Alias  ADMIN = alumno, jperez
+Cmnd_Alias  REBOOT_CMDS = /sbin/reboot, /sbin/shutdown</pre>
+
+    <p>Para grupos, anteponer <code>%</code>:</p>
+    <pre>%admin ALL=(ALL) ALL</pre>
+
+    <div class="quiz" data-quiz="5">
+      <h3>📝 Cuestionario Unidad 5</h3>
+
+      <div class="question" data-correct="a">
+        <p class="q">1. ¿Cuál es el UID del usuario root?</p>
+        <label><input type="radio" name="u5q1" value="a"> 0</label>
+        <label><input type="radio" name="u5q1" value="b"> 1</label>
+        <label><input type="radio" name="u5q1" value="c"> 1000</label>
+        <label><input type="radio" name="u5q1" value="d"> 100</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">2. ¿En qué archivo se almacenan las contraseñas encriptadas de los usuarios?</p>
+        <label><input type="radio" name="u5q2" value="a"> /etc/passwd</label>
+        <label><input type="radio" name="u5q2" value="b"> /etc/group</label>
+        <label><input type="radio" name="u5q2" value="c"> /etc/shadow</label>
+        <label><input type="radio" name="u5q2" value="d"> /etc/sudoers</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="d">
+        <p class="q">3. ¿Qué comando se recomienda para editar /etc/sudoers?</p>
+        <label><input type="radio" name="u5q3" value="a"> nano</label>
+        <label><input type="radio" name="u5q3" value="b"> vim</label>
+        <label><input type="radio" name="u5q3" value="c"> emacs</label>
+        <label><input type="radio" name="u5q3" value="d"> visudo</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <p class="q">4. ¿Qué hace <code>userdel -r jperez</code>?</p>
+        <label><input type="radio" name="u5q4" value="a"> Solo elimina la cuenta</label>
+        <label><input type="radio" name="u5q4" value="b"> Elimina la cuenta y el directorio home</label>
+        <label><input type="radio" name="u5q4" value="c"> Renombra al usuario</label>
+        <label><input type="radio" name="u5q4" value="d"> Bloquea la cuenta</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <p class="q">5. En la regla <code>alumno ALL = (ALL:ALL) ALL</code>, ¿qué significa el último ALL?</p>
+        <label><input type="radio" name="u5q5" value="a"> Las máquinas donde aplica la regla</label>
+        <label><input type="radio" name="u5q5" value="b"> Los comandos que puede ejecutar el usuario</label>
+        <label><input type="radio" name="u5q5" value="c"> El grupo del usuario</label>
+        <label><input type="radio" name="u5q5" value="d"> Las contraseñas válidas</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">6. ¿Qué se debe agregar a la línea de boot del GRUB para recuperar la contraseña de root?</p>
+        <label><input type="radio" name="u5q6" value="a"> ro quiet</label>
+        <label><input type="radio" name="u5q6" value="b"> single</label>
+        <label><input type="radio" name="u5q6" value="c"> rw init=/bin/bash</label>
+        <label><input type="radio" name="u5q6" value="d"> recovery=true</label>
+        <div class="feedback"></div>
+      </div>
+
+      <button class="check" onclick="checkQuiz(5)">Verificar respuestas</button>
+      <div class="score" id="score-5"></div>
+    </div>
+  </section>
+
+  <!-- ============ UNIDAD 6 ============ -->
+  <section class="unit" id="u6">
+    <h2>Unidad 6 — Permisos: Octal, Simbólico, Especiales y Umask</h2>
+
+    <h3>6.1 Estructura de permisos</h3>
+    <p>Los permisos se dividen en 3 grupos: <strong>Usuario (Owner)</strong>, <strong>Grupo (Group)</strong>, <strong>Otros (Others)</strong>.</p>
+    <p>Cada grupo tiene 3 permisos: <strong>r</strong> (lectura), <strong>w</strong> (escritura), <strong>x</strong> (ejecución).</p>
+    <pre>-rwxr-xr--
+│└┬┘└┬┘└┬┘
+│ │   │   └─ otros: r--
+│ │   └───── grupo: r-x
+│ └───────── owner: rwx
+└─────────── tipo de archivo (- regular, d directorio, l link, etc.)</pre>
+
+    <h3>6.2 Formato Octal</h3>
+    <table>
+      <tr><th>Permiso</th><th>Valor</th></tr>
+      <tr><td>r (read)</td><td>4</td></tr>
+      <tr><td>w (write)</td><td>2</td></tr>
+      <tr><td>x (execute)</td><td>1</td></tr>
+    </table>
+    <table>
+      <tr><th>Letras</th><th>Binario</th><th>Octal</th></tr>
+      <tr><td>---</td><td>000</td><td>0</td></tr>
+      <tr><td>--x</td><td>001</td><td>1</td></tr>
+      <tr><td>-w-</td><td>010</td><td>2</td></tr>
+      <tr><td>-wx</td><td>011</td><td>3</td></tr>
+      <tr><td>r--</td><td>100</td><td>4</td></tr>
+      <tr><td>r-x</td><td>101</td><td>5</td></tr>
+      <tr><td>rw-</td><td>110</td><td>6</td></tr>
+      <tr><td>rwx</td><td>111</td><td>7</td></tr>
+    </table>
+    <pre>chmod 754 archivo
+# 7 (rwx) owner | 5 (r-x) grupo | 4 (r--) otros</pre>
+
+    <h3>6.3 Formato Simbólico</h3>
+    <pre>chmod [quién][operador][permiso] archivo
+
+quién:     u (user) | g (group) | o (others) | a (all)
+operador:  + (añadir) | - (quitar) | = (establecer)
+permiso:   r | w | x
+
+Ejemplos:
+chmod u+rw archivo
+chmod g-w archivo
+chmod a=rx archivo</pre>
+
+    <h3>6.4 Cambio de propietario</h3>
+    <pre>chown usuario archivo
+chgrp grupo archivo
+chown alumno:alumno salida.txt    # cambia ambos a la vez</pre>
+
+    <h3>6.5 Permisos Especiales</h3>
+    <table>
+      <tr><th>Permiso</th><th>Octal</th><th>Símbolo</th><th>Función</th></tr>
+      <tr><td><strong>SetUID</strong></td><td>4</td><td>s (en owner)</td><td>El ejecutable corre con permisos del propietario</td></tr>
+      <tr><td><strong>SetGID</strong></td><td>2</td><td>s (en grupo)</td><td>Ejecutable corre con permisos del grupo. En directorios, archivos heredan el grupo</td></tr>
+      <tr><td><strong>StickyBit</strong></td><td>1</td><td>t (en otros)</td><td>Solo el dueño o root puede borrar archivos del directorio</td></tr>
+    </table>
+    <pre>chmod 4755 archivo    # SetUID
+chmod 2755 archivo    # SetGID
+chmod 1755 directorio # StickyBit
+
+# Equivalente simbólico:
+chmod u+s archivo
+chmod g+s archivo
+chmod +t directorio</pre>
+
+    <h3>6.6 Umask</h3>
+    <p>Define los <strong>permisos predeterminados</strong> al crear nuevos archivos y directorios.</p>
+    <ul>
+      <li>Default para archivos: <strong>666</strong> (rw-rw-rw-)</li>
+      <li>Default para directorios: <strong>777</strong> (rwxrwxrwx)</li>
+    </ul>
+
+    <h4>Cálculo por resta</h4>
+    <pre>0666 - 0644 = 0022
+umask 0022
+# Los nuevos archivos se crearán con permisos 644 (rw-r--r--)</pre>
+
+    <h4>Cálculo por operación binaria</h4>
+    <ol>
+      <li>Convertir 666 a binario: <code>110 110 110</code></li>
+      <li>Convertir el deseado (644) a binario: <code>110 100 100</code> y aplicar NOT: <code>001 011 011</code></li>
+      <li>Operación AND bit a bit: <code>110 110 110 AND 001 011 011 = 000 010 010</code> = octal <strong>022</strong></li>
+    </ol>
+
+    <h4>Configuración de umask</h4>
+    <ul>
+      <li><strong>Sesión activa:</strong> <code>umask 022</code> en la terminal.</li>
+      <li><strong>Por usuario:</strong> editar <code>~/.bashrc</code> o <code>~/.profile</code></li>
+      <li><strong>Global:</strong> editar <code>/etc/profile</code> o <code>/etc/login.defs</code></li>
+    </ul>
+
+    <div class="quiz" data-quiz="6">
+      <h3>📝 Cuestionario Unidad 6</h3>
+
+      <div class="question" data-correct="b">
+        <p class="q">1. ¿Cuál es el valor octal del permiso <code>rwxr-xr--</code>?</p>
+        <label><input type="radio" name="u6q1" value="a"> 644</label>
+        <label><input type="radio" name="u6q1" value="b"> 754</label>
+        <label><input type="radio" name="u6q1" value="c"> 755</label>
+        <label><input type="radio" name="u6q1" value="d"> 777</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">2. ¿Qué hace <code>chmod u+x script.sh</code>?</p>
+        <label><input type="radio" name="u6q2" value="a"> Quita permiso de ejecución al usuario</label>
+        <label><input type="radio" name="u6q2" value="b"> Da permisos de lectura al grupo</label>
+        <label><input type="radio" name="u6q2" value="c"> Añade permiso de ejecución al usuario propietario</label>
+        <label><input type="radio" name="u6q2" value="d"> Cambia el dueño del archivo</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <p class="q">3. ¿Cuál es el valor numérico de "x" (execute)?</p>
+        <label><input type="radio" name="u6q3" value="a"> 4</label>
+        <label><input type="radio" name="u6q3" value="b"> 1</label>
+        <label><input type="radio" name="u6q3" value="c"> 2</label>
+        <label><input type="radio" name="u6q3" value="d"> 7</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="d">
+        <p class="q">4. ¿Para qué sirve el StickyBit en un directorio?</p>
+        <label><input type="radio" name="u6q4" value="a"> Da permisos de ejecución a todos</label>
+        <label><input type="radio" name="u6q4" value="b"> Hereda el grupo al crear archivos</label>
+        <label><input type="radio" name="u6q4" value="c"> Permite ejecutar archivos como root</label>
+        <label><input type="radio" name="u6q4" value="d"> Solo el dueño del archivo (o root) puede borrarlo</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <p class="q">5. Con <code>umask 022</code>, ¿qué permisos tendrá un nuevo archivo?</p>
+        <label><input type="radio" name="u6q5" value="a"> 644 (rw-r--r--)</label>
+        <label><input type="radio" name="u6q5" value="b"> 666 (rw-rw-rw-)</label>
+        <label><input type="radio" name="u6q5" value="c"> 755 (rwxr-xr-x)</label>
+        <label><input type="radio" name="u6q5" value="d"> 022</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">6. ¿Qué comando cambia el dueño y grupo a la vez?</p>
+        <label><input type="radio" name="u6q6" value="a"> chmod alumno:alumno archivo</label>
+        <label><input type="radio" name="u6q6" value="b"> chgrp alumno:alumno archivo</label>
+        <label><input type="radio" name="u6q6" value="c"> chown alumno:alumno archivo</label>
+        <label><input type="radio" name="u6q6" value="d"> usermod alumno:alumno archivo</label>
+        <div class="feedback"></div>
+      </div>
+
+      <button class="check" onclick="checkQuiz(6)">Verificar respuestas</button>
+      <div class="score" id="score-6"></div>
+    </div>
+  </section>
+
+  <!-- ============ UNIDAD 7 ============ -->
+  <section class="unit" id="u7">
+    <h2>Unidad 7 — Filesystem (Introducción)</h2>
+
+    <h3>7.1 ¿Qué es un Filesystem?</h3>
+    <p>Estructura que organiza cómo se almacenan y acceden los datos en un disco. Actúa como puente entre los datos físicos y el sistema operativo, permitiendo leer, escribir, modificar y eliminar archivos.</p>
+
+    <h3>7.2 Tipos de Filesystems</h3>
+    <table>
+      <tr><th>FS</th><th>Características</th><th>Ventajas</th><th>Desventajas</th></tr>
+      <tr><td><strong>ext4</strong></td><td>Journalizado, archivos grandes, comprobación de errores</td><td>Rápido y confiable</td><td>No nativo en Windows</td></tr>
+      <tr><td><strong>XFS</strong></td><td>Journalizado, alta eficiencia</td><td>Escalable, gran rendimiento en volúmenes grandes</td><td>Redimensionado complejo</td></tr>
+      <tr><td><strong>Btrfs</strong></td><td>Journalizado, snapshots, compresión</td><td>Ideal para backups y versionado</td><td>Aún en optimización</td></tr>
+      <tr><td><strong>NTFS</strong></td><td>Compatible con Windows</td><td>Interoperabilidad Linux/Windows</td><td>Rendimiento menor en Linux</td></tr>
+    </table>
+
+    <h3>7.3 Filesystems Journalizados</h3>
+    <p>Registran cada cambio en un área especial llamada <strong>journal</strong> antes de aplicarlo al sistema de archivos. Esto protege la integridad de los datos: si hay un fallo o corte de energía, el journal permite reconstruir y minimizar archivos corruptos.</p>
+
+    <h4>Tipos de journaling</h4>
+    <ul>
+      <li><strong>Journaling completo:</strong> registra datos y metadatos. Más seguro, más lento.</li>
+      <li><strong>Journaling de metadatos:</strong> solo metadatos (ubicación, nombre). Más rápido, menos seguro.</li>
+      <li><strong>Journaling asíncrono/sincrónico:</strong> prioriza integridad o velocidad.</li>
+    </ul>
+
+    <h3>7.4 Incorporación de un disco en VirtualBox</h3>
+    <ol>
+      <li>Apagar la máquina y abrir <strong>Settings → Storage</strong>.</li>
+      <li>Seleccionar el controlador (Controller) y "Agregar nuevo disco".</li>
+      <li>Elegir <strong>Create</strong>.</li>
+      <li>Definir nombre, tipo (VDI), tamaño. Dejar destildado "pre-allocate Full Size".</li>
+      <li>Seleccionar el disco y confirmar con <strong>Choose</strong> y <strong>OK</strong>.</li>
+      <li>Encender la máquina.</li>
+    </ol>
+
+    <div class="quiz" data-quiz="7">
+      <h3>📝 Cuestionario Unidad 7</h3>
+
+      <div class="question" data-correct="b">
+        <p class="q">1. ¿Qué es un filesystem?</p>
+        <label><input type="radio" name="u7q1" value="a"> Un editor de texto</label>
+        <label><input type="radio" name="u7q1" value="b"> Una estructura que organiza el almacenamiento de datos en disco</label>
+        <label><input type="radio" name="u7q1" value="c"> Una distribución de Linux</label>
+        <label><input type="radio" name="u7q1" value="d"> Un protocolo de red</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="d">
+        <p class="q">2. ¿Para qué sirve el "journal" en un filesystem journalizado?</p>
+        <label><input type="radio" name="u7q2" value="a"> Para indexar archivos como una base de datos</label>
+        <label><input type="radio" name="u7q2" value="b"> Para encriptar archivos</label>
+        <label><input type="radio" name="u7q2" value="c"> Para comprimir información</label>
+        <label><input type="radio" name="u7q2" value="d"> Para registrar cambios y proteger la integridad ante fallos</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <p class="q">3. ¿Cuál es el filesystem nativo más usado en Linux moderno?</p>
+        <label><input type="radio" name="u7q3" value="a"> ext4</label>
+        <label><input type="radio" name="u7q3" value="b"> NTFS</label>
+        <label><input type="radio" name="u7q3" value="c"> FAT32</label>
+        <label><input type="radio" name="u7q3" value="d"> HFS+</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">4. ¿Qué filesystem destaca por permitir snapshots y compresión?</p>
+        <label><input type="radio" name="u7q4" value="a"> ext4</label>
+        <label><input type="radio" name="u7q4" value="b"> XFS</label>
+        <label><input type="radio" name="u7q4" value="c"> Btrfs</label>
+        <label><input type="radio" name="u7q4" value="d"> NTFS</label>
+        <div class="feedback"></div>
+      </div>
+
+      <button class="check" onclick="checkQuiz(7)">Verificar respuestas</button>
+      <div class="score" id="score-7"></div>
+    </div>
+  </section>
+
+  <!-- ============ EXAMEN INTEGRADOR ============ -->
+  <section class="unit" id="examen">
+    <h2>📝 Cuestionario Integrador del Examen <span class="badge">EXAMEN</span></h2>
+    <p>Preguntas basadas en los puntos exactos que mencionó el profesor. Si dominás estas, vas bien encaminado.</p>
+
+    <div class="quiz" data-quiz="99">
+
+      <div class="question" data-correct="c">
+        <p class="q">1. ¿Qué es stdin?</p>
+        <label><input type="radio" name="qx1" value="a"> El stream de salida de errores</label>
+        <label><input type="radio" name="qx1" value="b"> El stream de salida normal</label>
+        <label><input type="radio" name="qx1" value="c"> El stream de entrada estándar (descriptor 0, default teclado)</label>
+        <label><input type="radio" name="qx1" value="d"> Un archivo de configuración</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <p class="q">2. ¿Cuál es el descriptor numérico de stdout?</p>
+        <label><input type="radio" name="qx2" value="a"> 0</label>
+        <label><input type="radio" name="qx2" value="b"> 1</label>
+        <label><input type="radio" name="qx2" value="c"> 2</label>
+        <label><input type="radio" name="qx2" value="d"> 3</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <p class="q">3. ¿Cuál es el dispositivo asociado por default a stdout?</p>
+        <label><input type="radio" name="qx3" value="a"> Monitor</label>
+        <label><input type="radio" name="qx3" value="b"> Teclado</label>
+        <label><input type="radio" name="qx3" value="c"> Disco</label>
+        <label><input type="radio" name="qx3" value="d"> Impresora</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <p class="q">4. ¿Para qué sirve grep?</p>
+        <label><input type="radio" name="qx4" value="a"> Para listar archivos</label>
+        <label><input type="radio" name="qx4" value="b"> Como filtro: busca dentro de archivos o stdin patrones de texto</label>
+        <label><input type="radio" name="qx4" value="c"> Para instalar paquetes</label>
+        <label><input type="radio" name="qx4" value="d"> Para crear directorios</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="d">
+        <p class="q">5. ¿Qué hace <code>apt-get update</code>?</p>
+        <label><input type="radio" name="qx5" value="a"> Actualiza el SO completo</label>
+        <label><input type="radio" name="qx5" value="b"> Instala todas las actualizaciones</label>
+        <label><input type="radio" name="qx5" value="c"> Reinicia el sistema</label>
+        <label><input type="radio" name="qx5" value="d"> Actualiza el repositorio (índice) local de paquetes</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">6. ¿Qué hace <code>apt-cache search</code>?</p>
+        <label><input type="radio" name="qx6" value="a"> Borra paquetes</label>
+        <label><input type="radio" name="qx6" value="b"> Lista todos los paquetes instalados</label>
+        <label><input type="radio" name="qx6" value="c"> Busca el nombre de paquetes en el índice local</label>
+        <label><input type="radio" name="qx6" value="d"> Configura repositorios</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <p class="q">7. ¿Qué hace <code>apt-get install</code>?</p>
+        <label><input type="radio" name="qx7" value="a"> Instala paquetes</label>
+        <label><input type="radio" name="qx7" value="b"> Busca paquetes</label>
+        <label><input type="radio" name="qx7" value="c"> Elimina paquetes</label>
+        <label><input type="radio" name="qx7" value="d"> Muestra info de paquetes</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <p class="q">8. ¿Cuál es la diferencia entre GNU y Linux?</p>
+        <label><input type="radio" name="qx8" value="a"> Son lo mismo</label>
+        <label><input type="radio" name="qx8" value="b"> GNU son las herramientas y la filosofía libre (Stallman); Linux es el kernel (Torvalds)</label>
+        <label><input type="radio" name="qx8" value="c"> GNU es el kernel y Linux son las apps</label>
+        <label><input type="radio" name="qx8" value="d"> GNU es Windows y Linux es Mac</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">9. ¿Qué hizo Stallman?</p>
+        <label><input type="radio" name="qx9" value="a"> Creó el kernel Linux</label>
+        <label><input type="radio" name="qx9" value="b"> Inventó Unix</label>
+        <label><input type="radio" name="qx9" value="c"> Lanzó el proyecto GNU, la GPL y promovió el software libre</label>
+        <label><input type="radio" name="qx9" value="d"> Creó VirtualBox</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="d">
+        <p class="q">10. ¿Qué hizo Linus Torvalds?</p>
+        <label><input type="radio" name="qx10" value="a"> Creó GNU</label>
+        <label><input type="radio" name="qx10" value="b"> Escribió la GPL</label>
+        <label><input type="radio" name="qx10" value="c"> Inventó BSD</label>
+        <label><input type="radio" name="qx10" value="d"> Creó el kernel Linux en 1991</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <p class="q">11. ¿Qué son las expresiones regulares?</p>
+        <label><input type="radio" name="qx11" value="a"> Funciones matemáticas</label>
+        <label><input type="radio" name="qx11" value="b"> Reglas que permiten definir patrones de búsqueda complejos en texto</label>
+        <label><input type="radio" name="qx11" value="c"> Comandos de instalación</label>
+        <label><input type="radio" name="qx11" value="d"> Sistemas de archivos</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="a">
+        <p class="q">12. ¿Cómo se buscan líneas que empiecen con cierta letra (ej. C)?</p>
+        <label><input type="radio" name="qx12" value="a"> grep '^C' archivo.txt</label>
+        <label><input type="radio" name="qx12" value="b"> grep 'C$' archivo.txt</label>
+        <label><input type="radio" name="qx12" value="c"> grep 'C*' archivo.txt</label>
+        <label><input type="radio" name="qx12" value="d"> grep 'C?' archivo.txt</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="c">
+        <p class="q">13. ¿Cuál es el descriptor de stderr?</p>
+        <label><input type="radio" name="qx13" value="a"> 0</label>
+        <label><input type="radio" name="qx13" value="b"> 1</label>
+        <label><input type="radio" name="qx13" value="c"> 2</label>
+        <label><input type="radio" name="qx13" value="d"> 3</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="b">
+        <p class="q">14. En regex, ¿qué significa el caracter <code>$</code>?</p>
+        <label><input type="radio" name="qx14" value="a"> Inicio de línea</label>
+        <label><input type="radio" name="qx14" value="b"> Final de línea</label>
+        <label><input type="radio" name="qx14" value="c"> Cualquier carácter</label>
+        <label><input type="radio" name="qx14" value="d"> Negación</label>
+        <div class="feedback"></div>
+      </div>
+
+      <div class="question" data-correct="d">
+        <p class="q">15. ¿Para qué sirve grep como filtro junto con un pipe?</p>
+        <label><input type="radio" name="qx15" value="a"> Para encriptar la salida</label>
+        <label><input type="radio" name="qx15" value="b"> Para guardar la salida en disco</label>
+        <label><input type="radio" name="qx15" value="c"> Para apagar el sistema</label>
+        <label><input type="radio" name="qx15" value="d"> Para filtrar las líneas de la salida de otro comando que coincidan con un patrón</label>
+        <div class="feedback"></div>
+      </div>
+
+      <button class="check" onclick="checkQuiz(99)">Verificar respuestas</button>
+      <div class="score" id="score-99"></div>
+    </div>
+
+    <div class="callout" style="margin-top: 30px;">
+      <strong>📌 Resumen ultra-condensado para repaso final:</strong>
+      <ul>
+        <li><strong>Streams:</strong> stdin (0, teclado) | stdout (1, monitor) | stderr (2, monitor).</li>
+        <li><strong>Redirecciones:</strong> <code>&gt;</code> sobreescribe, <code>&gt;&gt;</code> añade, <code>&lt;</code> entrada, <code>2&gt;</code> errores, <code>|</code> pipe.</li>
+        <li><strong>APT:</strong> <code>update</code> (índice) → <code>search</code> (buscar) → <code>install</code> (instalar).</li>
+        <li><strong>Stallman:</strong> GNU + GPL + software libre. <strong>Torvalds:</strong> kernel Linux (1991).</li>
+        <li><strong>GNU/Linux:</strong> herramientas GNU + kernel Linux = sistema operativo completo.</li>
+        <li><strong>Regex:</strong> <code>^</code> inicio, <code>$</code> fin, <code>.</code> cualquier carácter, <code>*</code> cero o más, <code>+</code> uno o más, <code>?</code> cero o una.</li>
+        <li><strong>grep:</strong> filtro de búsqueda. <code>grep '^C' archivo</code> = líneas que empiezan con C.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    Resumen elaborado a partir del material oficial de las Unidades 1 a 7 de Computación Aplicada · Universidad de Palermo · Bibliografía: Niklas, P. (2020) <em>GNU/Linux, con sabor a Debian</em>.
+  </footer>
+</div>
+
+<script>
+function checkQuiz(quizId) {
+  const quiz = document.querySelector('[data-quiz="' + quizId + '"]');
+  const questions = quiz.querySelectorAll('.question');
+  let correct = 0, total = questions.length, unanswered = 0;
+
+  questions.forEach((q, idx) => {
+    const correctAnswer = q.dataset.correct;
+    const selected = q.querySelector('input[type=radio]:checked');
+    const feedback = q.querySelector('.feedback');
+    feedback.style.display = 'block';
+
+    if (!selected) {
+      unanswered++;
+      feedback.className = 'feedback bad';
+      feedback.textContent = '⚠️ Sin responder. La correcta era: ' + correctAnswer.toUpperCase();
+    } else if (selected.value === correctAnswer) {
+      correct++;
+      feedback.className = 'feedback ok';
+      feedback.textContent = '✅ ¡Correcto!';
+    } else {
+      feedback.className = 'feedback bad';
+      feedback.textContent = '❌ Incorrecto. La correcta era: ' + correctAnswer.toUpperCase();
+    }
+  });
+
+  const score = document.getElementById('score-' + quizId);
+  const pct = Math.round((correct / total) * 100);
+  let emoji = '🎯';
+  if (pct < 50) emoji = '📚';
+  else if (pct < 80) emoji = '👍';
+  else if (pct === 100) emoji = '🏆';
+
+  score.innerHTML = emoji + ' Resultado: <strong>' + correct + ' / ' + total + '</strong> correctas (' + pct + '%)';
+  score.style.background = pct === 100 ? 'rgba(34,197,94,0.2)' : pct >= 70 ? 'rgba(56,189,248,0.15)' : 'rgba(239,68,68,0.15)';
+}
+</script>
+
+</body>
+</html>
